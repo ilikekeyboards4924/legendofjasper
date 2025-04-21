@@ -9,8 +9,8 @@ export class Vector2 {
             this.x = Math.cos(angle) * magnitude;
             this.y = Math.sin(angle) * magnitude;
             // remove weird rounding errors
-            this.x = Math.round(this.x * 1000000) / 1000000;
-            this.y = Math.round(this.y * 1000000) / 1000000;
+            this.x = Math.round(this.x * 1000) / 1000;
+            this.y = Math.round(this.y * 1000) / 1000;
         }
     }
     magnitude() {

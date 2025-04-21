@@ -8,6 +8,8 @@ export class Camera {
     center(rect) {
         this.offset.x = lerp(this.offset.x, rect.x + Math.floor(rect.w / 2) - Math.floor(this.renderer.canvas.width / 2));
         this.offset.y = lerp(this.offset.y, rect.y + Math.floor(rect.h / 2) - Math.floor(this.renderer.canvas.height / 2));
+        // this.offset.x = Math.round(this.offset.x);
+        // this.offset.y = Math.round(this.offset.y);
         // old camera movement code (less smooth, more like an arcade game)
         // this.offset.x = rect.x + Math.floor(rect.w/2) - Math.floor(this.renderer.canvas.width/2);
         // this.offset.y = rect.y + Math.floor(rect.h/2) - Math.floor(this.renderer.canvas.height/2);

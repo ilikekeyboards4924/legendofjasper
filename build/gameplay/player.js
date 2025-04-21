@@ -62,7 +62,6 @@ export class Player extends Entity {
         if (!controller.keys.has('w') && !controller.keys.has('s'))
             this.vel.y = 0;
         this.vel.normalize(5);
-        console.log(this.vel.magnitude());
         this.x += this.vel.x;
         this.y += this.vel.y;
     }
