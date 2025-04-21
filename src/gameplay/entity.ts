@@ -7,10 +7,14 @@ export class Entity extends TexturedRect {
 
     health: number;
 
+    entityIndex: number; // index of which entity it is
+
     constructor(x: number, y: number, w: number, h: number, imageOrAnimationFrames?: HTMLImageElement | Record<string, HTMLImageElement[]>) {
         super(x, y, w, h, imageOrAnimationFrames);
         this.vel = new Vector2(0, 0);
         this.direction = new Vector2(0, 0);
+
+        this.entityIndex = Date.now(); // is this the best way to make an index?
     }
 
     protected update() {

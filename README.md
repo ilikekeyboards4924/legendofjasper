@@ -15,7 +15,7 @@
 ---
 
 # minor/non-gameplay features to add
-- normalize player movement speed
+- ~~normalize player movement speed~~
 
 - add TEXTBOX class
 

@@ -3,12 +3,15 @@ import { Entity } from "./entity.js";
 export class Player extends Entity {
     constructor(x, y, w, h, imageOrAnimationFrames) {
         super(x, y, w, h, imageOrAnimationFrames);
+        this.health = 100;
         // initialize player into idle animation
         this.currentAnimationFrame = 0;
         this.currentAnimation = 'idle';
     }
     update() {
         super.update();
+        // if (this.direction.x == -1 && this.currentAnimation == 'right') this.currentAnimationFrame = 0;
+        // if (this.direction.x == 1 && this.currentAnimation == 'left') this.currentAnimationFrame = 0;
         if (this.direction.x == -1)
             this.currentAnimation = 'left';
         if (this.direction.x == 1)
@@ -17,8 +20,10 @@ export class Player extends Entity {
     }
     animateUpdate() {
         if (this.vel.x != 0 || this.vel.y != 0) { // if moving
-            if (this.currentAnimation == 'idle')
+            if (this.currentAnimation == 'idle') {
                 this.currentAnimation = 'left';
+            }
+            ;
             if (this.frameCounterLastFrame == undefined)
                 this.frameCounterLastFrame = gameData.frameCounter;
             if (gameData.frameCounter - this.frameCounterLastFrame > 6) {
@@ -45,17 +50,20 @@ export class Player extends Entity {
         if (gameData.playerControlsActive == false)
             return;
         if (controller.keys.has('a'))
-            this.vel.x = -5;
+            this.vel.x = -1;
         if (controller.keys.has('d'))
-            this.vel.x = 5;
+            this.vel.x = 1;
         if (!controller.keys.has('a') && !controller.keys.has('d'))
             this.vel.x = 0;
         if (controller.keys.has('w'))
-            this.vel.y = -5;
+            this.vel.y = -1;
         if (controller.keys.has('s'))
-            this.vel.y = 5;
+            this.vel.y = 1;
         if (!controller.keys.has('w') && !controller.keys.has('s'))
             this.vel.y = 0;
+        this.vel.normalize(5);
+        // console.log(this.vel.x, this.vel.y, this.vel.magnitude(), this.vel.angle());
+        console.log(this.vel.magnitude(), this.vel.angle());
         this.x += this.vel.x;
         this.y += this.vel.y;
     }

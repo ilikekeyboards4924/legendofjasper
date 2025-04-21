@@ -6,6 +6,7 @@ import { Entity } from "./entity.js";
 export class Player extends Entity {
     constructor(x: number, y: number, w: number, h: number, imageOrAnimationFrames?: HTMLImageElement | Record<string, HTMLImageElement[]>) {
         super(x, y, w, h, imageOrAnimationFrames);
+        this.health = 100;
 
         // initialize player into idle animation
         this.currentAnimationFrame = 0;
@@ -15,6 +16,9 @@ export class Player extends Entity {
     update() {
         super.update();
 
+        // if (this.direction.x == -1 && this.currentAnimation == 'right') this.currentAnimationFrame = 0;
+        // if (this.direction.x == 1 && this.currentAnimation == 'left') this.currentAnimationFrame = 0;
+
         if (this.direction.x == -1) this.currentAnimation = 'left';
         if (this.direction.x == 1) this.currentAnimation = 'right';
     
@@ -23,7 +27,7 @@ export class Player extends Entity {
 
     protected animateUpdate() {
         if (this.vel.x != 0 || this.vel.y != 0) { // if moving
-            if (this.currentAnimation == 'idle') this.currentAnimation = 'left';
+            if (this.currentAnimation == 'idle') { this.currentAnimation = 'left'; };
             if (this.frameCounterLastFrame == undefined) this.frameCounterLastFrame = gameData.frameCounter;
             if (gameData.frameCounter - this.frameCounterLastFrame > 6) {
                 this.currentAnimationFrame = (this.currentAnimationFrame + 1)%8; // assuming the walk animation is 8 frames
@@ -48,12 +52,16 @@ export class Player extends Entity {
     move(controller: Controller) {
         if (gameData.playerControlsActive == false) return;
 
-        if (controller.keys.has('a')) this.vel.x = -5;
-        if (controller.keys.has('d')) this.vel.x = 5;
+        if (controller.keys.has('a')) this.vel.x = -1;
+        if (controller.keys.has('d')) this.vel.x = 1;
         if (!controller.keys.has('a') && !controller.keys.has('d')) this.vel.x = 0;
-        if (controller.keys.has('w')) this.vel.y = -5;
-        if (controller.keys.has('s')) this.vel.y = 5;
+        if (controller.keys.has('w')) this.vel.y = -1;
+        if (controller.keys.has('s')) this.vel.y = 1;
         if (!controller.keys.has('w') && !controller.keys.has('s')) this.vel.y = 0;
+
+        this.vel.normalize(5);
+        // console.log(this.vel.x, this.vel.y, this.vel.magnitude(), this.vel.angle());
+        console.log(this.vel.magnitude(), this.vel.angle());
 
         this.x += this.vel.x;
         this.y += this.vel.y;

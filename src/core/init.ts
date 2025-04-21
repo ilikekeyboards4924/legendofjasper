@@ -8,6 +8,7 @@ import { logoImage, startButtonAnimation, titleImage, playerTextures, signDecorI
 import { StartButton } from "../ui/startbutton.js";
 import { gameData, random } from "./util.js";
 import { Background } from "../gameplay/background.js";
+import { Enemy } from "../gameplay/enemy.js";
 
 const renderer: Renderer = new Renderer();
 const controller: Controller = new Controller();
@@ -23,8 +24,8 @@ const button: StartButton = new StartButton(renderer.canvas.width - 128 - 40, 40
 const player: Player = new Player(0, 0, 96*2/3, 243*2/3, playerTextures);
 
 let decors: Decor[] = [];
-for (let i = 0; i < 10; i++) {
-    let decor: Decor = new Decor(random(-renderer.canvas.width, renderer.canvas.width*2), random(-renderer.canvas.height, renderer.canvas.height*2), 102, 105, signDecorImage);
+for (let i = 0; i < 100; i++) {
+    let decor: Decor = new Decor(random(-renderer.canvas.width*5, renderer.canvas.width*6), random(-renderer.canvas.height*5, renderer.canvas.height*6), 102, 105, signDecorImage);
     decors.push(decor);
 }
 
@@ -35,6 +36,10 @@ titleCard.setVisibility(false);
 button.setVisibility(false);
 player.setVisibility(false);
 decors.forEach(decor => decor.setVisibility(false));
+
+for (let i  = 0; i < 100; i++) {
+  new Enemy(0, 0, 102, 105, signDecorImage);
+}
 
 document.addEventListener('keydown', event => controller.keyHandler(event));
 document.addEventListener('keyup', event => controller.keyHandler(event));

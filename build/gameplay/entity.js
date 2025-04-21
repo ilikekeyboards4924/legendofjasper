@@ -5,6 +5,7 @@ export class Entity extends TexturedRect {
         super(x, y, w, h, imageOrAnimationFrames);
         this.vel = new Vector2(0, 0);
         this.direction = new Vector2(0, 0);
+        this.entityIndex = Date.now(); // is this the best way to make an index?
     }
     update() {
         if (this.vel.x < 0)
