@@ -10,7 +10,6 @@ function updateGameState() {
         if (gameData.frameCounter >= 0 && gameData.frameCounter < 120) logo.setVisibility(true);
         if (gameData.frameCounter > 120) logo.setVisibility(false);
         if (gameData.frameCounter > 170) gameData.state = 1;
-        console.log(gameData.frameCounter);
     }
     
     if (gameData.state == 1) {

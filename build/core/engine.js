@@ -11,7 +11,6 @@ function updateGameState() {
             logo.setVisibility(false);
         if (gameData.frameCounter > 170)
             gameData.state = 1;
-        console.log(gameData.frameCounter);
     }
     if (gameData.state == 1) {
         if (gameData.frameCounter > 200) {
