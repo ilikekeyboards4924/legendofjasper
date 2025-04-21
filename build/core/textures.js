@@ -1,37 +1,40 @@
 import { baseUrl } from "./util.js";
 function setSource(image, url) {
     image.src = baseUrl + url;
+    return image;
 }
-let titleImage = new Image(960, 540);
-setSource(titleImage, 'textures/title.png');
-let logoImage = new Image(960, 540);
-setSource(logoImage, 'textures/logo.png');
-let walkCycleAnimation = [];
+const titleImage = setSource(new Image(960, 540), 'textures/title.png');
+;
+const logoImage = setSource(new Image(960, 540), 'textures/logo.png');
+;
+const playerTextures = {};
+playerTextures['left'] = [];
+playerTextures['right'] = [];
+playerTextures['idle'] = [];
 for (let i = 0; i < 8; i++) {
-    let image = new Image(96, 243);
-    setSource(image, `textures/walkcycle/left/${i + 1}.png`);
-    walkCycleAnimation.push(image);
+    playerTextures['left'].push(setSource(new Image(96, 243), `textures/walkcycle/left/${i + 1}.png`));
 }
 for (let i = 0; i < 8; i++) {
-    let image = new Image(96, 243);
-    setSource(image, `textures/walkcycle/right/${i + 1}.png`);
-    walkCycleAnimation.push(image);
+    playerTextures['right'].push(setSource(new Image(96, 243), `textures/walkcycle/right/${i + 1}.png`));
 }
 (() => {
-    let image = new Image(96, 243);
-    setSource(image, 'textures/walkcycle/left/idle.png');
-    walkCycleAnimation.push(image);
+    playerTextures['idle'].push(setSource(new Image(96, 243), 'textures/walkcycle/left/idle.png'));
 })();
 (() => {
-    let image = new Image(96, 243);
-    setSource(image, 'textures/walkcycle/right/idle.png');
-    walkCycleAnimation.push(image);
+    playerTextures['idle'].push(setSource(new Image(96, 243), 'textures/walkcycle/right/idle.png'));
 })();
-let startButtonAnimation = [new Image(128, 64), new Image(128, 64)];
-setSource(startButtonAnimation[0], 'textures/start-button.png');
-setSource(startButtonAnimation[1], 'textures/start-button-clicked.png');
-let signDecorImage = new Image(102, 105);
-setSource(signDecorImage, 'textures/sign-decor.png');
-let backgroundImage = new Image(960, 540);
-setSource(backgroundImage, 'textures/background.png');
-export { titleImage, startButtonAnimation, walkCycleAnimation, logoImage, signDecorImage, backgroundImage };
+// let startButtonAnimation: HTMLImageElement[] = [new Image(128, 64), new Image(128, 64)];
+// setSource(startButtonAnimation[0], 'textures/start-button.png');
+// setSource(startButtonAnimation[1], 'textures/start-button-clicked.png');
+const startButtonAnimation = {};
+startButtonAnimation['idle'] = [];
+startButtonAnimation['active'] = [];
+(() => {
+    startButtonAnimation['idle'].push(setSource(new Image(128, 64), 'textures/start-button.png'));
+})();
+(() => {
+    startButtonAnimation['active'].push(setSource(new Image(128, 64), 'textures/start-button-clicked.png'));
+})();
+const signDecorImage = setSource(new Image(102, 105), 'textures/sign-decor.png');
+const backgroundImage = setSource(new Image(960, 540), 'textures/background.png');
+export { titleImage, startButtonAnimation, playerTextures, logoImage, signDecorImage, backgroundImage };

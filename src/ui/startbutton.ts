@@ -4,7 +4,7 @@ import { gameData } from "../core/util.js";
 export class StartButton extends Button {
     delay: number;
 
-    constructor(x: number, y: number, w: number, h: number, imageOrAnimationFrames?: HTMLImageElement | HTMLImageElement[]) {
+    constructor(x: number, y: number, w: number, h: number, imageOrAnimationFrames?: HTMLImageElement | Record<string, HTMLImageElement[]>) {
         super(x, y, w, h, imageOrAnimationFrames);
         this.delay = 30;
     }
@@ -18,12 +18,13 @@ export class StartButton extends Button {
         if (gameData.frameCounter - this.frameClicked > this.delay) {
             gameData.state = 2;
             this.updateInteraction = false;
-            this.visible = false;
+            this._visible = false;
         }
     }
 
     protected animateUpdate() {
-        if (this.beingClicked == false) this.currentAnimationFrame = 0;        
-        if (this.beingClicked == true) this.currentAnimationFrame = 1;        
+        if (this.currentAnimation == undefined) this.currentAnimation = 'idle';
+        if (this.beingClicked == false) this.currentAnimation = 'idle';
+        if (this.beingClicked == true) this.currentAnimation = 'active';
     }
 }

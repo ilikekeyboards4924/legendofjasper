@@ -2,9 +2,43 @@ import { titleScreenMusic } from "./audio.js";
 import { background, button, camera, controller, decors, logo, player, renderer, titleCard } from "./init.js";
 import { gameData } from "./util.js";
 
-export function run() {
-    renderer.color(0,0,0);
+function updateGameState() {
+    renderer.color(0, 0, 0);
+    renderer.ctx.fillRect(0, 0, renderer.canvas.width, renderer.canvas.height);
+
+    if (gameData.state == 0) {
+        if (gameData.frameCounter >= 0 && gameData.frameCounter < 120) logo.setVisibility(true);
+        if (gameData.frameCounter > 120) logo.setVisibility(false);
+        if (gameData.frameCounter > 170) gameData.state = 1;
+        console.log(gameData.frameCounter);
+    }
     
+    if (gameData.state == 1) {
+        if (gameData.frameCounter > 200) {
+            titleCard.setVisibility(true);
+            button.setVisibility(true);
+        }
+    }
+
+    if (gameData.state == 2) {
+        gameData.playerControlsActive = true;
+
+        renderer.color(100,100,255);
+
+        titleCard.setVisibility(false);
+        player.setVisibility(true)
+        decors.forEach(decor => decor.setVisibility(true));
+        background.sections.forEach(row => {
+            row.forEach(section => {
+                section.setVisibility(true);
+            });
+        })
+    }
+}
+
+export function run() {
+    updateGameState();
+
     controller.update();
 
     background.draw(camera);
@@ -24,35 +58,7 @@ export function run() {
     camera.center(player);
     player.draw(camera);
 
-    background.update(player);
-    
-    if (gameData.state == 0) {
-        if (gameData.frameCounter >= 0) logo.visible = true;
-        if (gameData.frameCounter > 120) logo.visible = false;
-        if (gameData.frameCounter > 130) gameData.state = 1;
-    }
-    
-    if (gameData.state == 1) {
-        if (gameData.frameCounter > 150) {
-            titleCard.visible = true;
-            button.visible = true;
-        }
-    }
-
-    if (gameData.state == 2) {
-        gameData.playerControlsActive = true;
-
-        renderer.color(100,100,255);
-
-        titleCard.visible = false;
-        player.visible = true;
-        decors.forEach(decor => decor.visible = true);
-        background.sections.forEach(row => {
-            row.forEach(section => {
-                section.visible = true;
-            });
-        })
-    }
+    background.update(player);    
 }
 
 document.addEventListener('click', _ => {

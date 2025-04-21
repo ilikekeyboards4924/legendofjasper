@@ -14,13 +14,15 @@ export class StartButton extends Button {
         if (gameData.frameCounter - this.frameClicked > this.delay) {
             gameData.state = 2;
             this.updateInteraction = false;
-            this.visible = false;
+            this._visible = false;
         }
     }
     animateUpdate() {
+        if (this.currentAnimation == undefined)
+            this.currentAnimation = 'idle';
         if (this.beingClicked == false)
-            this.currentAnimationFrame = 0;
+            this.currentAnimation = 'idle';
         if (this.beingClicked == true)
-            this.currentAnimationFrame = 1;
+            this.currentAnimation = 'active';
     }
 }

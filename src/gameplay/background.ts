@@ -19,6 +19,7 @@ export class Background {
             this.sections.push([]);
             for (let x = 0; x < this.columns; x++) {
                 let section = new TexturedRect(-renderer.canvas.width + renderer.canvas.width * x, -renderer.canvas.height + renderer.canvas.height * y, 960, 540, backgroundImage);
+                section.setVisibility(false);
                 this.sections[y].push(section);
             }
         }

@@ -5,7 +5,7 @@ export class Button extends TexturedRect {
         super(x, y, w, h, imageOrAnimationFrames);
     }
     update(mouse) {
-        if (this.visible == false)
+        if (this._visible == false)
             return;
         let mouseRect = new Rect(mouse.x, mouse.y, 1, 1);
         if (this.collision(mouseRect) && mouse.lmb && !mouse.alreadyClicked) {

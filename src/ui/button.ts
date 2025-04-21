@@ -8,12 +8,12 @@ export class Button extends TexturedRect {
     updateInteraction: boolean;
     beingClicked: boolean;
 
-    constructor(x: number, y: number, w: number, h: number, imageOrAnimationFrames?: HTMLImageElement | HTMLImageElement[]) {
+    constructor(x: number, y: number, w: number, h: number, imageOrAnimationFrames?: HTMLImageElement | Record<string, HTMLImageElement[]>) {
         super(x, y, w, h, imageOrAnimationFrames);
     }
 
-    update(mouse: Mouse) { // is this the best way to do this?
-        if (this.visible == false) return;
+    update(mouse: Mouse) { // is this the best way to do this? (prolly not)
+        if (this._visible == false) return;
 
         let mouseRect: Rect = new Rect(mouse.x, mouse.y, 1, 1);
         if (this.collision(mouseRect) && mouse.lmb && !mouse.alreadyClicked) {

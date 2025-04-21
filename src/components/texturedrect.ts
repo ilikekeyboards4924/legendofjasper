@@ -5,45 +5,45 @@ import { Rect } from "./rect.js";
 export class TexturedRect extends Rect {
     image: HTMLImageElement; // use for one static texture
 
-    // ADD RECORDS FOR TEXTURE SETS, REMOVE ANIMATION FRAME OFFSETS
-
-    animationFrames: HTMLImageElement[]; // use for animations
-    currentAnimationFrame: number; // current frame
-    currentAnimationFrameOffset: number; // offset by certain amount to get new animation set e.g. left vs right animations (is this the best way to switch between animations?)
+    animationFrames: Record<string, HTMLImageElement[]>; // use for animations
+    currentAnimation: string;
+    currentAnimationFrame: number;
 
     frameCounterLastFrame: number; // the frame count when the last animation frame was changed/displayed, use this to get time between frames
 
-    visible: boolean;
+    protected _visible: boolean;
 
-    constructor(x: number, y: number, w: number, h: number, imageOrAnimationFrames?: HTMLImageElement | HTMLImageElement[]) {
+    constructor(x: number, y: number, w: number, h: number, imageOrAnimationFrames?: HTMLImageElement | Record<string, HTMLImageElement[]>) {
         super(x, y, w, h);
 
-        if (Array.isArray(imageOrAnimationFrames)) { // hacky bs to overload the constructor
+        if (imageOrAnimationFrames && typeof imageOrAnimationFrames === "object" && !("src" in imageOrAnimationFrames)) { // hacky bs to overload constructor
             this.animationFrames = imageOrAnimationFrames;
-            this.image = undefined;
+            this.image = undefined!;
         } else {
-            this.image = imageOrAnimationFrames;
-            this.animationFrames = undefined;
+            this.image = imageOrAnimationFrames as HTMLImageElement;
+            this.animationFrames = undefined!;
         }
 
-        this.visible = false; // should i always start them invisible? should this.visible be protected?
+
+        this._visible = true; // should i always start them invisible? should this.visible be protected?
         this.currentAnimationFrame = 0;
-        this.currentAnimationFrameOffset = 0;
     }
+
+    setVisibility(visible: boolean) { this._visible = visible; }
 
     protected animateUpdate() { // update animations n stuff here
         console.log('empty method');
     }
 
-    draw(camera: Camera, offset: boolean = true) { // remove this when camera is implemented
-        if (this.visible == false) return;
+    draw(camera: Camera, offset: boolean = true) {
+        if (this._visible == false) return;
 
         if (this.animationFrames == undefined) {
-            // camera.renderer.ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
             camera.drawImage(this.image, this, offset);
         } else {
-            camera.drawImage(this.animationFrames[this.currentAnimationFrame + this.currentAnimationFrameOffset], this, offset);
-            // camera.renderer.ctx.drawImage(this.animationFrames[this.currentAnimationFrame + this.currentAnimationFrameOffset], this.x, this.y, this.w, this.h);
+            const frames = this.animationFrames[this.currentAnimation];
+            const frame = frames[this.currentAnimationFrame];
+            camera.drawImage(frame, this, offset);
         }
     }
 }
