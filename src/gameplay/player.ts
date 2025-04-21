@@ -25,7 +25,7 @@ export class Player extends Entity {
         if (this.vel.x != 0 || this.vel.y != 0) { // if moving
             if (this.currentAnimation == 'idle') this.currentAnimation = 'left';
             if (this.frameCounterLastFrame == undefined) this.frameCounterLastFrame = gameData.frameCounter;
-            if (gameData.frameCounter - this.frameCounterLastFrame > 4) {
+            if (gameData.frameCounter - this.frameCounterLastFrame > 6) {
                 this.currentAnimationFrame = (this.currentAnimationFrame + 1)%8; // assuming the walk animation is 8 frames
                 this.frameCounterLastFrame = gameData.frameCounter;
             }
